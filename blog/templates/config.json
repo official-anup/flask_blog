@@ -1,0 +1,35 @@
+{
+    "params": {
+        "local_server": true,
+       
+        "local_uri": "mysql://root:@localhost/flask_blog",
+       
+        "prod_uri": "mysql://root:@localhost/flask_blog",
+       
+        "fb_url": "https://facebook.com/thenavigator",
+       
+        "tw_url": "https://twitter.com/thenavigator",
+       
+        "gt_url": "https://github.com/thenavigator",
+    
+        "blog_name":"The Navigator",
+
+        "sub_heading":"The Humans",
+
+        "gmail-user":"anupalone8956196120@gmail.com",
+
+        "gmail-password":"icfe tasf ebfv sdol",
+
+        "num_of_post":2,
+
+        "login_image":"login.svg",
+
+        "admin_user":"anup",
+
+        "admin_password":"Anup@0805",
+
+        "upload_location":"C:\\Users\\91766\\Desktop\\Flask\\code with harry\\blog\\static\\upload_img"
+
+
+    }
+}
