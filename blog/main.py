@@ -132,34 +132,43 @@ def about():
 
 
 @app.route("/edit", methods=["GET", "POST"])
-@app.route("/edit/<string:srno>", methods=["GET", "POST"])
+@app.route("/edit/<int:srno>", methods=["GET", "POST"])
 def edit(srno=None):
-    post = Posts.query.filter_by(srno=srno).first()  # Initialize post variable outside the if statement
-
-    if ('user' in session and session['user'] == params['admin_user']):
+    if 'user' in session and session['user'] == params['admin_user']:
         if request.method == 'POST':
             box_title = request.form.get('title')
-            sub_title = request.form.get('sub_title')  # Make sure this matches the name in the form
+            sub_title = request.form.get('sub_title')
             slug = request.form.get('slug')
             content = request.form.get('content')
             img_file = request.form.get('img_file')
             date = datetime.now()
 
-            if srno == '0' or srno is None:
+            if srno is None:
+                # Creating a new post
                 post = Posts(title=box_title, slug=slug, content=content, sub_title=sub_title, img_file=img_file, date=date)
                 db.session.add(post)
-                db.session.commit()
             else:
-                post.title = box_title
-                post.sub_title = sub_title
-                post.slug = slug
-                post.content = content
-                post.img_file = img_file
-                post.date = date
-                db.session.commit()
-                return redirect("/edit/"+srno)
+                # Updating an existing post
+                post = Posts.query.get(srno)
+                if post:
+                    post.title = box_title
+                    post.sub_title = sub_title
+                    post.slug = slug
+                    post.content = content
+                    post.img_file = img_file
+                    post.date = date
 
-    return render_template('edit.html', params=params, post=post, srno=srno)
+            db.session.commit()
+
+            # Redirect to the edited post
+            return redirect("/edit/" + str(post.srno) if post else "/dashboard")
+
+        # Fetch post data for editing
+        post = Posts.query.get(srno) if srno else None
+        return render_template('edit.html', params=params, post=post, srno=srno)
+
+    return render_template('login.html', params=params)
+
 
 
 @app.route("/uploader", methods = ['GET', 'POST'])
